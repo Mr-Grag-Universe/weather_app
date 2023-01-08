@@ -53,15 +53,18 @@ public:
             std::cerr << "connection is already disable" << std::endl;
     }
 
-    void request(const std::string & target) {
+    std::string request(const std::string & target) {
         std::string payload = "GET " + target + "\r\n";
-        std::cout << "payload: " << payload << std::endl;
+        std::cout << "request: " << payload << std::endl;
         // Отправляем реквест через приконекченный сокет
         m_sock->write_some(buffer(payload));
-        std::cout << "bytes available " << m_sock->available() << std::endl;
+        // std::cout << "bytes available " << m_sock->available() << std::endl;
         char buff[1024];
         size_t read = m_sock->read_some(buffer(buff));
-        std::cout << std::string(buff) << std::endl;
+        std::string response = std::string(buff).substr(0, read);
+        // std::cout << "size: " << read << "\nresponse: " << response << std::endl;
+
+        return response;
     }
 };
 
