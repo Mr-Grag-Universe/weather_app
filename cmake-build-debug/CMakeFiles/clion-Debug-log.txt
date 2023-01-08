@@ -1,0 +1,28 @@
+C:\Users\Stephan\AppData\Local\JetBrains\CLion2022.3\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=/cygdrive/c/Program Files/JetBrains/CLion 2022.3/bin/ninja/cygwin/ninja.exe" -G Ninja -S /cygdrive/c/Users/Stephan/CLionProjects/weather_app -B /cygdrive/c/Users/Stephan/CLionProjects/weather_app/cmake-build-debug
+-- Found Boost 1.81.0 at C:/boost_1_81_0/lib/cmake/Boost-1.81.0
+--   Requested configuration: QUIET REQUIRED COMPONENTS system;program_options
+-- BoostConfig: find_package(boost_headers 1.81.0 EXACT CONFIG REQUIRED QUIET HINTS C:/boost_1_81_0/lib/cmake)
+-- Found boost_headers 1.81.0 at C:/boost_1_81_0/lib/cmake/boost_headers-1.81.0
+-- BoostConfig: find_package(boost_system 1.81.0 EXACT CONFIG REQUIRED QUIET HINTS C:/boost_1_81_0/lib/cmake)
+-- Found boost_system 1.81.0 at C:/boost_1_81_0/lib/cmake/boost_system-1.81.0
+-- Boost toolset is gcc10 (GNU 10.2.0)
+-- Scanning C:/boost_1_81_0/lib/cmake/boost_system-1.81.0/libboost_system-variant*.cmake
+--   Library has no variants and is considered not found
+CMake Error at C:/boost_1_81_0/lib/cmake/Boost-1.81.0/BoostConfig.cmake:141 (find_package):
+  Found package configuration file:
+
+    C:/boost_1_81_0/lib/cmake/boost_system-1.81.0/boost_system-config.cmake
+
+  but it set boost_system_FOUND to FALSE so package "boost_system" is
+  considered to be NOT FOUND.  Reason given by package:
+
+  No suitable build variant has been found.
+
+Call Stack (most recent call first):
+  C:/boost_1_81_0/lib/cmake/Boost-1.81.0/BoostConfig.cmake:262 (boost_find_component)
+  /cygdrive/c/Users/Stephan/AppData/Local/JetBrains/CLion2022.3/cygwin_cmake/share/cmake-3.24.2/Modules/FindBoost.cmake:594 (find_package)
+  CMakeLists.txt:11 (find_package)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/cygdrive/c/Users/Stephan/CLionProjects/weather_app/cmake-build-debug/CMakeFiles/CMakeOutput.log".
