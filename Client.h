@@ -54,8 +54,8 @@ public:
     }
 
     std::string request(const std::string & target) {
-        std::string payload = "GET " + target + "\r\n";
-        std::cout << "request: " << payload << std::endl;
+        std::string payload = "GET " + target + "\n";
+        // std::cout << "request: " << payload << std::endl;
         // Отправляем реквест через приконекченный сокет
         m_sock->write_some(buffer(payload));
         // std::cout << "bytes available " << m_sock->available() << std::endl;
@@ -63,8 +63,13 @@ public:
         size_t read = m_sock->read_some(buffer(buff));
         std::string response = std::string(buff).substr(0, read);
         // std::cout << "size: " << read << "\nresponse: " << response << std::endl;
-
+        this->disconnect();
+        this->connect();
         return response;
+    }
+
+    ~Client() {
+        this->disconnect();
     }
 };
 

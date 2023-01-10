@@ -8,6 +8,7 @@
 
 #include "SimpleServer.h"
 #include "Client.h"
+#include "C_Weather.h"
 
 using namespace boost::asio;
 
@@ -19,24 +20,13 @@ boost::property_tree::ptree json_from_string(const std::string& s_json) {
     return root;
 }
 
-boost::property_tree::ptree extract_weather(const boost::property_tree::ptree & tree) {
-    boost::property_tree::ptree raw_weather = tree.get_child("weather");
-    boost::property_tree::ptree::iterator w_iter = raw_weather.begin();
-    boost::property_tree::ptree weather;
-    for(; w_iter != raw_weather.end(); ++w_iter) {
-        weather = w_iter->second;
-    }
-
-    return weather;
-}
-
 void print_weather(const boost::property_tree::ptree & tree) {
-    boost::property_tree::ptree weather = extract_weather(tree);
+    C_Weather weather(tree);
 
-    std::cout << "coords: (" << tree.get<double>("coord.lon") << "; " << tree.get<double>("coord.lat") << ")" << std::endl;
-    std::cout << "temperature: " << tree.get<double>("main.temp") << " K" << std::endl;
-    std::cout << "general condition: " << weather.get<std::string>("main") << std::endl;
-    std::cout << "city: " << tree.get<std::string>("name") << std::endl;
+    std::cout << "coords: (" << weather.getCoord().lat << "; " << weather.getCoord().lon << ")" << std::endl;
+    std::cout << "temperature: " << weather.getIndicators().temp << " K" << std::endl;
+    std::cout << "general condition: " << weather.getWeather().main << std::endl;
+    std::cout << "city: " << weather.getName() << std::endl;
 }
 
 int main() {
@@ -50,7 +40,7 @@ int main() {
     ip::tcp::resolver::query query(host, "80");
     ip::tcp::resolver::iterator iter = resolver.resolve( query);
     ip::tcp::endpoint ep = *iter;
-    std::cout << ep.address().to_string() << std::endl;
+    // std::cout << ep.address().to_string() << std::endl;
 
     // ip::tcp::endpoint ep(ip::address::from_string("127.0.0.1"), 80);
     ip::tcp::socket sock(service);
@@ -59,20 +49,19 @@ int main() {
     client.set_endpoint(ep);
     client.connect();
 
-    std::string response = client.request(target);
 
-    client.disconnect();
 
-    std::cout << response << std::endl;
-
-    boost::property_tree::ptree tree = json_from_string(response);
+    // std::cout << response << std::endl;
 
     while (true) {
+        std::string response = client.request(target);
+        boost::property_tree::ptree tree = json_from_string(response);
         print_weather(tree);
         using namespace std::chrono_literals;
         std::this_thread::sleep_for(10s);
     }
 
+    client.disconnect();
 
     return 0;
 }
